@@ -19,9 +19,8 @@ date
 apk add curl
 
 #安装brook
-TAG_URL="https://github.com/txthinking/brook/releases/latest"
-VER="$(curl -H "Accept: application/json" -H "User-Agent: Mozilla/4.0 (X11; Linux x86_64; rv:74.0) Gecko/20100101 Firefox/74.0" -s "${TAG_URL}" | grep 'tag' | cut -d\" -f2 | cut -d\/ -f8)"
-curl -L https://github.com/txthinking/brook/releases/download/v20240404/brook_linux_amd64 -o /usr/bin/brook
+VER="$(wget -qO- -t1 -T2 "https://api.github.com/repos/txthinking/brook/releases/latest" | grep "tag_name" | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/,//g;s/ //g')"
+curl -L https://github.com/txthinking/brook/releases/download/${VER}/brook_linux_amd64 -o /usr/bin/brook
 chmod +x /usr/bin/brook
 chmod +x /root/run.sh
 
